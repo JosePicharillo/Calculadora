@@ -6,7 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import net.objecthunter.exp4j.ExpressionBuilder
-import java.lang.Exception
+import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var equal: TextView
     private lateinit var point: TextView
     private lateinit var backspace: ImageView
+    private lateinit var sqrt: TextView
+    private lateinit var percent: TextView
+    private lateinit var exp: TextView
     private lateinit var zero: TextView
     private lateinit var one: TextView
     private lateinit var two: TextView
@@ -50,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         equal = findViewById(R.id.equal)
         point = findViewById(R.id.point)
         backspace = findViewById(R.id.backspace)
+        sqrt = findViewById(R.id.sqrt)
+        percent = findViewById(R.id.percentage)
+        exp = findViewById(R.id.exp)
         zero = findViewById(R.id.zero)
         one = findViewById(R.id.one)
         two = findViewById(R.id.two)
@@ -62,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         nine = findViewById(R.id.nine)
     }
 
-    fun addExpression(string: String, clear: Boolean) {
+    private fun addExpression(string: String, clear: Boolean) {
         if (result.text.isNotEmpty()) {
             expression.text = ""
         }
@@ -79,23 +85,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun actionButtons() {
         //Numbers
-        zero.setOnClickListener{ addExpression("0", true) }
-        one.setOnClickListener{ addExpression("1", true) }
-        two.setOnClickListener{ addExpression("2", true) }
-        three.setOnClickListener{ addExpression("3", true) }
-        four.setOnClickListener{ addExpression("4", true) }
-        five.setOnClickListener{ addExpression("5", true) }
-        six.setOnClickListener{ addExpression("6", true) }
-        seven.setOnClickListener{ addExpression("7", true) }
-        eight.setOnClickListener{ addExpression("8", true) }
-        nine.setOnClickListener{ addExpression("9", true) }
+        zero.setOnClickListener { addExpression("0", true) }
+        one.setOnClickListener { addExpression("1", true) }
+        two.setOnClickListener { addExpression("2", true) }
+        three.setOnClickListener { addExpression("3", true) }
+        four.setOnClickListener { addExpression("4", true) }
+        five.setOnClickListener { addExpression("5", true) }
+        six.setOnClickListener { addExpression("6", true) }
+        seven.setOnClickListener { addExpression("7", true) }
+        eight.setOnClickListener { addExpression("8", true) }
+        nine.setOnClickListener { addExpression("9", true) }
         point.setOnClickListener { addExpression(".", true) }
 
         //Operations
-        addition.setOnClickListener{ addExpression("+", false) }
-        subtraction.setOnClickListener{ addExpression("-", false) }
-        division.setOnClickListener{ addExpression("/", false) }
-        multiplication.setOnClickListener{ addExpression("*", false) }
+        addition.setOnClickListener { addExpression("+", false) }
+        subtraction.setOnClickListener { addExpression("-", false) }
+        division.setOnClickListener { addExpression("/", false) }
+        multiplication.setOnClickListener { addExpression("*", false) }
 
         //Other
         clear.setOnClickListener {
@@ -105,17 +111,16 @@ class MainActivity : AppCompatActivity() {
         backspace.setOnClickListener {
             val string = expression.text.toString()
             if (string.isNotBlank()) {
-                expression.text = string.substring(0,string.length-1)
+                expression.text = string.substring(0, string.length - 1)
             }
             result.text = ""
         }
         equal.setOnClickListener {
             try {
-                val exp = ExpressionBuilder(expression.text.toString()).build()
-                val res = exp.evaluate()
-                val longResult = res.toLong()
-                if (res == longResult.toDouble()) {
-                    result.text = longResult.toString()
+                val expression = ExpressionBuilder(expression.text.toString()).build()
+                val res = expression.evaluate()
+                if (res == expressionComplete().toDouble()) {
+                    result.text = expressionComplete().toString()
                 } else {
                     result.text = res.toString()
                 }
@@ -123,22 +128,29 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
             }
         }
+
+
+        /**
+         * Operações Avançadas
+         */
+        sqrt.setOnClickListener {
+            val resultRaiz = sqrt(expressionComplete().toDouble())
+            result.text = resultRaiz.toString()
+        }
+        percent.setOnClickListener {
+            val resultPorcent = expressionComplete() / 100
+            result.text = resultPorcent.toString()
+        }
+        exp.setOnClickListener { addExpression("^", false) }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Retorna a expressão completa
+     */
+    private fun expressionComplete(): Long {
+        val expression = ExpressionBuilder(expression.text.toString()).build()
+        val res = expression.evaluate()
+        return res.toLong()
+    }
 
 }

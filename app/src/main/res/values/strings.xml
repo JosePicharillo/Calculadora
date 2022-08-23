@@ -11,7 +11,9 @@
     <string name="subtraction">-</string>
     <string name="addition">+</string>
     <string name="equal">=</string>
-
+    <string name="percentage">%</string>
+    <string name="sqrt">sqrt</string>
+    <string name="exp">^</string>
 
     <!-- Numbers -->
     <string name="zero">0</string>
@@ -23,5 +25,6 @@
     <string name="six">6</string>
     <string name="seven">7</string>
     <string name="eight">8</string>
-    <string name="nine">0</string>
+    <string name="nine">9</string>
+    <string name="todo">TODO</string>
 </resources>
