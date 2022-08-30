@@ -27,4 +27,9 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="todo">TODO</string>
+    <string name="tipo_calculadora">Tipo Calculadora</string>
+    <string name="simples">Simples</string>
+    <string name="avan_ada">Avançada</string>
+    <string name="salvar_configura_es">Salvar Configurações</string>
+    <string name="configura_es">Configurações</string>
 </resources>

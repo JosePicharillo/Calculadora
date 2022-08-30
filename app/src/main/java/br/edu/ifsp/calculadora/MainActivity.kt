@@ -1,10 +1,17 @@
 package br.edu.ifsp.calculadora
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import br.edu.ifsp.calculadora.settings.AppConfig
+import br.edu.ifsp.calculadora.settings.Configuration
 import net.objecthunter.exp4j.ExpressionBuilder
 import kotlin.math.sqrt
 
@@ -38,8 +45,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val configApp = AppConfig.getInstance(applicationContext)
+        if (!configApp.firstExecution())
+            configApp.setFirstExecution(true)
+
         componentsView()
+        checkTypeCalc()
         actionButtons()
+    }
+
+    private fun checkTypeCalc() {
+        val configSettings = Configuration.getInstance()
+        if (configSettings.getCheckType() == 0) {
+            sqrt.visibility = View.GONE
+            percent.visibility = View.GONE
+            exp.visibility = View.GONE
+        }
+        if (configSettings.getCheckType() == 1) {
+            sqrt.visibility = View.VISIBLE
+            percent.visibility = View.VISIBLE
+            exp.visibility = View.VISIBLE
+        }
     }
 
     private fun componentsView() {
@@ -151,6 +177,19 @@ class MainActivity : AppCompatActivity() {
         val expression = ExpressionBuilder(expression.text.toString()).build()
         val res = expression.evaluate()
         return res.toLong()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_settings, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_settings) {
+            val intent = Intent(applicationContext, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

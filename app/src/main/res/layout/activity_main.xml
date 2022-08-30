@@ -40,14 +40,17 @@
         <TextView
             android:id="@+id/percentage"
             style="@style/others_button"
+            android:visibility="gone"
             android:text="@string/percentage" />
         <TextView
             android:id="@+id/sqrt"
             style="@style/others_button"
+            android:visibility="gone"
             android:text="@string/sqrt" />
         <TextView
             android:id="@+id/exp"
             style="@style/others_button"
+            android:visibility="gone"
             android:text="@string/exp" />
         <ImageView
             android:id="@+id/backspace"
